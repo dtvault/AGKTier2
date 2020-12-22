@@ -21,8 +21,8 @@
 
 #include "pwd.h"
 
-#include "/home/pi/Dev/emscripten/system/include/emscripten/emscripten.h"
-#include "/home/pi/Dev/emscripten/system/include/emscripten/html5.h"
+#include "emscripten.h"
+#include "html5.h"
 
 extern unsigned char libImageAscii[];
 extern unsigned char libImageAsciiExt[];
