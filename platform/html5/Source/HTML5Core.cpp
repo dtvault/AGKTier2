@@ -21,8 +21,8 @@
 
 #include "pwd.h"
 
-#include "emscripten.h"
-#include "html5.h"
+#include "/home/pi/Dev/emscripten/system/include/emscripten/emscripten.h"
+#include "/home/pi/Dev/emscripten/system/include/emscripten/html5.h"
 
 extern unsigned char libImageAscii[];
 extern unsigned char libImageAsciiExt[];
@@ -638,9 +638,13 @@ void agk::PlatformInitGL( void* ptr )
 	pTextBackground->SetSize( m_iDisplayWidth+m_iDisplayExtraX*2, m_iDisplayHeight+m_iDisplayExtraY*2 );
 	pTextBackground->FixToScreen(1);
 
-	// joysticks 
+	// You have to call emscripten_sample_gamepad_data() before emscripten_get_num_gamepads()
+    // Ref: https://emscripten.org/docs/api_reference/html5.h.html#c.emscripten_sample_gamepad_data
+	
+	int gamepadSupported = emscripten_sample_gamepad_data();
+	if (gamepadSupported == EMSCRIPTEN_RESULT_NOT_SUPPORTED) return;
 	int numJoysticks = emscripten_get_num_gamepads();
-	if ( numJoysticks == EMSCRIPTEN_RESULT_NOT_SUPPORTED ) return;
+	
 	if ( numJoysticks > AGK_NUM_JOYSTICKS ) numJoysticks = AGK_NUM_JOYSTICKS;
 	
 	for( int i = 0; i < AGK_NUM_JOYSTICKS; i++ )
@@ -674,9 +678,13 @@ void agk::PlatformInitConsole()
 	fFixTime2 = now.tv_nsec * 1e-9;
 	SetRandomSeed( uFixTime + (now.tv_nsec % 1000) );
 	
-	// joysticks 
+	// You have to call emscripten_sample_gamepad_data() before emscripten_get_num_gamepads()
+    // Ref: https://emscripten.org/docs/api_reference/html5.h.html#c.emscripten_sample_gamepad_data
+	
+	int gamepadSupported = emscripten_sample_gamepad_data();
+	if (gamepadSupported == EMSCRIPTEN_RESULT_NOT_SUPPORTED) return;
 	int numJoysticks = emscripten_get_num_gamepads();
-	if ( numJoysticks == EMSCRIPTEN_RESULT_NOT_SUPPORTED ) return;
+	
 	if ( numJoysticks > AGK_NUM_JOYSTICKS ) numJoysticks = AGK_NUM_JOYSTICKS;
 	
 	for( int i = 0; i < AGK_NUM_JOYSTICKS; i++ )
@@ -2434,7 +2442,7 @@ int agk::LoadVideo( const char *szFilename )
 		video.autoplay = false;
 		video.loop = false;
 		video.muted = false;
-		video.src = Pointer_stringify($0); 
+		video.src = UTF8ToString($0); 
 	}, szFilename);
 
 	return 1;
@@ -2797,7 +2805,7 @@ void agk::PlatformReportError( const uString &sMsg )
 	//fprintf( stderr, "%s\n", sMsg.GetStr());
 	const char *szMsg = sMsg.GetStr();
 	EM_ASM_({ 
-		console.log(Pointer_stringify($0)); 
+		console.log(UTF8ToString($0)); 
 	}, szMsg);
 }
 
@@ -2808,7 +2816,7 @@ void agk::DialogGroup( const char* group )
 
 void agk::PlatformMessage( const char* msg )
 {
-	EM_ASM_({ alert(Pointer_stringify($0)); }, msg);
+	EM_ASM_({ alert(UTF8ToString($0)); }, msg);
 }
 
 // Thread functions
@@ -3899,8 +3907,12 @@ void agk::SetRawMousePosition( float x, float y )
 
 void cJoystick::DetectJoysticks()
 {
+	int gamepadSupported = emscripten_sample_gamepad_data();
+	
+	if (gamepadSupported == EMSCRIPTEN_RESULT_NOT_SUPPORTED) return;
+	
 	int numJoysticks = emscripten_get_num_gamepads();
-	if ( numJoysticks == EMSCRIPTEN_RESULT_NOT_SUPPORTED ) return;
+	
 	if ( numJoysticks > AGK_NUM_JOYSTICKS ) numJoysticks = AGK_NUM_JOYSTICKS;
 	
 	for( int i = 0; i < AGK_NUM_JOYSTICKS; i++ )
@@ -4000,8 +4012,12 @@ void cJoystick::DetectJoysticks()
 
 void cJoystick::PlatformUpdate()
 {
+	int gamepadSupported = emscripten_sample_gamepad_data();
+	
+	if (gamepadSupported == EMSCRIPTEN_RESULT_NOT_SUPPORTED) return;
+	
 	int numJoysticks = emscripten_get_num_gamepads();
-	if ( numJoysticks == EMSCRIPTEN_RESULT_NOT_SUPPORTED ) return;
+	
 	if ( numJoysticks > AGK_NUM_JOYSTICKS ) numJoysticks = AGK_NUM_JOYSTICKS;
 	
 	for( int i = 0; i < numJoysticks; i++ )
@@ -4248,7 +4264,7 @@ void agk::OpenBrowser( const char *url )
 	if ( !url || strlen(url) == 0 ) return;
 
 	EM_ASM_({ 
-		window.open(Pointer_stringify($0),'_blank'); 
+		window.open(UTF8ToString($0),'_blank'); 
 	}, url);
 }
 
