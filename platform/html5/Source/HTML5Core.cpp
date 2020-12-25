@@ -21,8 +21,8 @@
 
 #include "pwd.h"
 
-#include "emscripten.h"
-#include "html5.h"
+#include "/home/pi/Dev/emscripten/system/include/emscripten/emscripten.h"
+#include "/home/pi/Dev/emscripten/system/include/emscripten/html5.h"
 
 extern unsigned char libImageAscii[];
 extern unsigned char libImageAsciiExt[];
@@ -4318,8 +4318,18 @@ void agk::FacebookActivateAppTracking()
 int agk::GetInternetState()
 //****
 {
-	// todo
-	return 1;
+	int status = EM_ASM_INT({
+	  if (navigator.onLine)
+	  {
+	    return 1;
+	  }
+	  else
+	  {
+	    return 0;
+	  }
+	});
+	
+	return status;
 }
 
 void agk::SetPushNotificationKeys( const char* data1, const char* reserved )
