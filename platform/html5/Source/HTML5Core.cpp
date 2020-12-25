@@ -1563,13 +1563,13 @@ bool cImage::PlatformGetDataFromFile( const char* szFile, unsigned char **pData,
 void agk::VibrateDevice( float seconds )
 //****
 {
-	// do nothing
+  EM_ASM_({navigator.Vibrate($0)}, seconds);
 }
 
 void agk::SetClipboardText( const char* szText )
 //****
 {
-
+ 
 }
 
 char* agk::GetClipboardText()
