@@ -1569,14 +1569,48 @@ void agk::VibrateDevice( float seconds )
 void agk::SetClipboardText( const char* szText )
 //****
 {
- 
+ EM_ASM_(
+        { // Check for Clipboard API
+		  if (navigator.clipboard)
+		  {
+		    navigator.clipboard.writeText(UTF8ToString($0));
+	      }
+		}, szText);
 }
 
 char* agk::GetClipboardText()
 //****
 {
-	char *str = new char[1]; *str = 0;
-	return str;
+  char *clipStr = (char*)EM_ASM_INT(
+        {
+	      var readClipText = Promise.resolve(navigator.clipboard.readText());
+
+          getData = readClipText.then(function(clipText) {
+            return clipText;
+          });
+
+          GetClipData = async () => {
+            clipData = await getData;
+              return clipData;
+          };
+          
+          // Send clipboard data to temp storage
+          GetClipData().then(value => localStorage.setItem('clipboard_data', value));
+          
+          var getClipboardData = localStorage.getItem('clipboard_data');
+          
+          var lengthBytes = lengthBytesUTF8(getClipboardData)+1;
+	      var stringOnWasmHeap = _malloc(lengthBytes);
+	      stringToUTF8(getClipboardData, stringOnWasmHeap, lengthBytes);
+	      
+          return stringOnWasmHeap;
+		});
+	    
+	    char *getClipText = clipStr;
+	    
+	    return getClipText; 
+    
+        free(clipStr);
 }
 
 // Music
