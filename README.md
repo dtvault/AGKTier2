@@ -1,10 +1,12 @@
+Added (HTML5) - SetClipboardText() and GetClipboardText()
+
 # AGK Tier2
 
 A community collaboration repository for AppGameKit Tier 2
 
 ## Introduction
 
-AppGameKit is feature packed with over 1,900 commands! Even after all these years we still get asked to add a myriad of new features. For this reason, we’re creating this community GitHub repository to encourage the more experienced developers within the community to help extend the features of AppGameKit.
+AppGameKit is feature packed with over 1,900 commands! Even after all these years we still get asked to add a myriad of new features. For this reason, weâ€™re creating this community GitHub repository to encourage the more experienced developers within the community to help extend the features of AppGameKit.
 
 ## Source Code Access
 
