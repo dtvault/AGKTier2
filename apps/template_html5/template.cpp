@@ -14,12 +14,12 @@ void app::Begin(void)
   agk::SetVirtualResolution ( 320, 480 );
 
   // display a background
-  agk::CreateSprite ( 1, agk::LoadImage ( "/media/background4.jpg" ) );
+  agk::CreateSprite ( 1, agk::LoadImage ( "media/background4.jpg" ) );
   agk::SetSpriteColorAlpha ( 1, 200 );
 
   // load two images
-  agk::LoadImage ( 1, "/media/chip5.png" );
-  agk::LoadImage ( 2, "/media/chip25.png" );
+  agk::LoadImage ( 1, "media/chip5.png" );
+  agk::LoadImage ( 2, "media/chip25.png" );
 
   // create sprites using image
   agk::CreateSprite ( 2, 1 );
