@@ -1,0 +1,52 @@
+CC = /home/pi/Dev/emscripten/emcc
+
+ODIR = build/obj
+
+INC = -I../../common/include -I../../common -I../interpreter -I../../bullet -I../../bullet/BulletCollision/CollisionShapes
+
+CFLAGS = -O2 -std=c++11
+
+ifeq ($(2D),1)
+	CFLAGS += -DAGK_2D_ONLY
+endif
+
+LDFLAGS = -L../../platform/html5/Lib/Release
+
+ifeq ($(DYNAMIC),1)
+	#LDFLAGS += -s ALLOW_MEMORY_GROWTH=1
+else 
+	#LDFLAGS += -s TOTAL_MEMORY=268435456
+endif
+
+DEPS = ../interpreter/interpreter.h \
+       ../interpreter/AGKCommandEnums.h \
+       ../interpreter/AGKCommandSwitch.h \
+       ../interpreter/AGKCommonSwitch.h \
+       ../interpreter/ProgramData.h
+
+#_OBJS = Core.o template.o       
+
+# Removed interpreter.o due to conflict to get Tier2 to HTML working
+_OBJS = Core.o \
+        template.o \
+        ProgramData.o 
+
+OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+
+all: setup $(OBJS) AGKPlayer
+
+setup:
+	mkdir -p build/obj
+
+$(ODIR)/%.o: %.cpp $(DEPS)
+	$(CC) -DIDE_HTML5 -c $(INC) -o $@ $< $(CFLAGS)
+	
+$(ODIR)/%.o: ../interpreter/%.cpp
+	$(CC) -DIDE_HTML5 -c $(INC) -o $@ $< $(CFLAGS)
+	
+AGKPlayer:
+	$(CC) $(OBJS) -o AGKPlayer.html $(LDFLAGS) -O2 --shell-file ../../platform/html5/Source/agkshell.html -s USE_GLFW=3 -s FULL_ES2=1 -s USE_SDL=1 -s WASM=1 -s ALLOW_MEMORY_GROWTH=1 -s DISABLE_EXCEPTION_CATCHING=0 -lAGKHTML5 --preload-file media
+
+clean:
+	rm -rf build/obj32/*
+	rm -f AGKPlayer.html
