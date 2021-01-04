@@ -21,8 +21,8 @@
 
 #include "pwd.h"
 
-#include "emscripten.h"
-#include "html5.h"
+#include "/home/pi/Dev/emscripten/system/include/emscripten/emscripten.h"
+#include "/home/pi/Dev/emscripten/system/include/emscripten/html5.h"
 
 extern unsigned char libImageAscii[];
 extern unsigned char libImageAsciiExt[];
@@ -1569,6 +1569,7 @@ void agk::VibrateDevice( float seconds )
 void agk::SetClipboardText( const char* szText )
 //****
 {
+	
  EM_ASM_(
         { // Check for Clipboard API
 		  if (navigator.clipboard)
@@ -1576,11 +1577,13 @@ void agk::SetClipboardText( const char* szText )
 		    navigator.clipboard.writeText(UTF8ToString($0));
 	      }
 		}, szText);
+
 }
 
 char* agk::GetClipboardText()
 //****
 {
+  
   char *clipStr = (char*)EM_ASM_INT(
         {
 	      var readClipText = Promise.resolve(navigator.clipboard.readText());
@@ -1611,6 +1614,34 @@ char* agk::GetClipboardText()
 	    return getClipText; 
     
         free(clipStr);
+        
+}
+
+void agk::FullScreen()
+//****
+{
+  EM_ASM_({
+	       
+	       document.getElementById('canvas').addEventListener('click', (event) => {
+             toggleFullScreen();
+           });
+	      
+	      function toggleFullScreen() 
+	      {
+            if (!document.fullscreenElement) 
+            {
+              document.documentElement.requestFullscreen();
+            } 
+            else 
+            {
+              if (document.exitFullscreen) 
+              {
+                document.exitFullscreen();
+              }
+            }
+          }
+	      
+	      });
 }
 
 // Music
@@ -2701,7 +2732,28 @@ void agk::StartScreenRecording( const char *szFilename, int microphone )
 void agk::StopScreenRecording()
 //****
 {
-
+ EM_ASM_({
+	       
+	       document.getElementById('canvas').addEventListener('click', (event) => {
+             toggleFullScreen();
+           });
+	      
+	      function toggleFullScreen() 
+	      {
+            if (!document.fullscreenElement) 
+            {
+              document.documentElement.requestFullscreen();
+            } 
+            else 
+            {
+              if (document.exitFullscreen) 
+              {
+                document.exitFullscreen();
+              }
+            }
+          }
+	      
+	      });
 }
 
 int agk::IsScreenRecording()
