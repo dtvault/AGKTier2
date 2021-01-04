@@ -21,8 +21,8 @@
 
 #include "pwd.h"
 
-#include "/home/pi/Dev/emscripten/system/include/emscripten/emscripten.h"
-#include "/home/pi/Dev/emscripten/system/include/emscripten/html5.h"
+#include "emscripten.h"
+#include "emscripten/html5.h"
 
 extern unsigned char libImageAscii[];
 extern unsigned char libImageAsciiExt[];
@@ -1560,10 +1560,10 @@ bool cImage::PlatformGetDataFromFile( const char* szFile, unsigned char **pData,
 	return true;
 }
 
-void agk::VibrateDevice( float seconds )
+void agk::VibrateDevice( int seconds )
 //****
 {
-  EM_ASM_({navigator.Vibrate($0)}, seconds);
+  EM_ASM_({window.navigator.vibrate($0)}, seconds);
 }
 
 void agk::SetClipboardText( const char* szText )
@@ -1617,31 +1617,12 @@ char* agk::GetClipboardText()
         
 }
 
-void agk::FullScreen()
+void agk::SendToConsole(const char* consoleText)
 //****
 {
-  EM_ASM_({
-	       
-	       document.getElementById('canvas').addEventListener('click', (event) => {
-             toggleFullScreen();
-           });
-	      
-	      function toggleFullScreen() 
-	      {
-            if (!document.fullscreenElement) 
-            {
-              document.documentElement.requestFullscreen();
-            } 
-            else 
-            {
-              if (document.exitFullscreen) 
-              {
-                document.exitFullscreen();
-              }
-            }
-          }
-	      
-	      });
+   EM_ASM_({
+	         console.log(UTF8ToString($0));
+           }, consoleText);
 }
 
 // Music
