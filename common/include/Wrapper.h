@@ -2167,13 +2167,14 @@ namespace AGK
 			static void StopSoundRecording();
 			static int IsSoundRecording();
 
-			static void VibrateDevice( float seconds );
-
+            // ------------------------------------------------------------------------  
+            static void VibrateDevice( int seconds );
 			static void SetClipboardText( const char* szText );
 			static char* GetClipboardText();
-
-            static void FullScreen();
-            
+			static int GetInternetState();
+            static void SendToConsole( const char* consoleText );
+            // ------------------------------------------------------------------------
+             
 			// file system commands
 			static char* SimplifyPath( const char *szPath );
 			static char* JoinPaths( const char *szPath, const char *szPath2 );
@@ -2355,8 +2356,6 @@ namespace AGK
 			static UINT CreateHTTPConnection();
 			static void DeleteHTTPConnection( UINT iHTTP );
 
-			static int GetInternetState();
-			
 			static UINT SetHTTPHost( UINT iHTTP, const char *szHost, int iSecure );
 			static UINT SetHTTPHost( UINT iHTTP, const char *szHost, int iSecure, const char *szUser, const char *szPass );
 			static void CloseHTTPConnection( UINT iHTTP );
