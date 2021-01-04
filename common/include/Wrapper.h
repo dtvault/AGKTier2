@@ -2172,6 +2172,8 @@ namespace AGK
 			static void SetClipboardText( const char* szText );
 			static char* GetClipboardText();
 
+            static void FullScreen();
+            
 			// file system commands
 			static char* SimplifyPath( const char *szPath );
 			static char* JoinPaths( const char *szPath, const char *szPath2 );
