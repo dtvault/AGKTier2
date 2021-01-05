@@ -1,6 +1,6 @@
-Added (HTML5) - SetClipboardText() and GetClipboardText()
-Added (HTML5) - SendToConsole()
-Added (HTML5) - VibrateDevice()
+Added (HTML5) - SetClipboardText() and GetClipboardText()\
+Added (HTML5) - SendToConsole()\
+Added (HTML5) - VibrateDevice()\
 Added (HTML5) - GetInternetState()
 
 # AGK Tier2
