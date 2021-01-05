@@ -14,6 +14,9 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 
+// for text
+#include <SDL/SDL_ttf.h>
+
 #include "png.h"
 
 #include "jpeglib.h"
@@ -4385,16 +4388,7 @@ void agk::FacebookActivateAppTracking()
 int agk::GetInternetState()
 //****
 {
-	int status = EM_ASM_INT({
-	  if (navigator.onLine)
-	  {
-	    return 1;
-	  }
-	  else
-	  {
-	    return 0;
-	  }
-	});
+	int status = EM_ASM_INT({ return (navigator.onLine); });
 	
 	return status;
 }
