@@ -1,6 +1,7 @@
 Added (HTML5) - Added a call to emscripten_sample_gamepad_data() before emscripten_get_num_gamepads()\
 Ref: https://emscripten.org/docs/api_reference/html5.h.html#c.emscripten_sample_gamepad_data\
 
+Added (HTML5) - template_html5\
 Added (HTML5) - SetClipboardText() and GetClipboardText()\
 Added (HTML5) - SendToConsole()\
 Added (HTML5) - VibrateDevice()\
