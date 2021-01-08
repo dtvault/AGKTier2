@@ -14,9 +14,6 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 
-// for text
-#include <SDL/SDL_ttf.h>
-
 #include "png.h"
 
 #include "jpeglib.h"
@@ -1628,6 +1625,45 @@ void agk::SendToConsole(const char* consoleText)
            }, consoleText);
 }
 
+void agk::SetLocalStorage( const char* keyItem, const char* dataItem )
+//****
+{
+  EM_ASM_({ localStorage.setItem(UTF8ToString($0), UTF8ToString($1)); }, keyItem, dataItem);     
+}
+
+char* agk::GetLocalStorage( const char* keyItem )
+//****
+{
+	char *getStr = (char*)EM_ASM_INT(
+        {
+	         
+          var getItem = localStorage.getItem(UTF8ToString($0));
+          
+          var lengthBytes = lengthBytesUTF8(getItem)+1;
+	      var stringOnWasmHeap = _malloc(lengthBytes);
+	      stringToUTF8(getItem, stringOnWasmHeap, lengthBytes);
+	      
+          return stringOnWasmHeap;
+		}, keyItem);
+	    
+	    char *getItem = getStr;
+	    
+	    return getItem; 
+    
+        free(getStr);
+}
+
+void agk::RemoveLocalStorage(const char* keyItem)
+{
+  EM_ASM_({ localStorage.removeItem(UTF8ToString($0)); }, keyItem);
+}
+
+void agk::ClearLocalStorage()
+//****
+{
+  EM_ASM_({ localStorage.clear(); });
+}
+
 // Music
 
 void cMusicMgr::PlatformAddFile( cMusic *pMusic )
@@ -2716,28 +2752,6 @@ void agk::StartScreenRecording( const char *szFilename, int microphone )
 void agk::StopScreenRecording()
 //****
 {
- EM_ASM_({
-	       
-	       document.getElementById('canvas').addEventListener('click', (event) => {
-             toggleFullScreen();
-           });
-	      
-	      function toggleFullScreen() 
-	      {
-            if (!document.fullscreenElement) 
-            {
-              document.documentElement.requestFullscreen();
-            } 
-            else 
-            {
-              if (document.exitFullscreen) 
-              {
-                document.exitFullscreen();
-              }
-            }
-          }
-	      
-	      });
 }
 
 int agk::IsScreenRecording()
