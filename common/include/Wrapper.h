@@ -2173,6 +2173,10 @@ namespace AGK
 			static char* GetClipboardText();
 			static int GetInternetState();
             static void SendToConsole( const char* consoleText );
+            static void SetLocalStorage( const char* keyItem, const char* dataItem );
+            static char* GetLocalStorage( const char* keyItem );
+            static void RemoveLocalStorage( const char* keyItem );
+            static void ClearLocalStorage();
             // ------------------------------------------------------------------------
              
 			// file system commands
