@@ -9,7 +9,7 @@ Added (HTML5) - GetInternetState()\
 Added (HTML5) - SetLocalStorage()\
 Added (HTML5) - GetLocalStorage()\
 Added (HTML5) - RemoveLocalStorage()\
-Added (HTML5) - ClearLocalStorage()\
+Added (HTML5) - ClearLocalStorage()
 
 # AGK Tier2
 
