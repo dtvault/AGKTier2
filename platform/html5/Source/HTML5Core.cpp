@@ -1583,10 +1583,9 @@ void agk::SetClipboardText( const char* szText )
 char* agk::GetClipboardText()
 //****
 {
-  
   char *clipStr = (char*)EM_ASM_INT(
-        {
-	      var readClipText = Promise.resolve(navigator.clipboard.readText());
+       {
+         var readClipText = Promise.resolve(navigator.clipboard.readText());
 
           getData = readClipText.then(function(clipText) {
             return clipText;
@@ -1603,18 +1602,17 @@ char* agk::GetClipboardText()
           var getClipboardData = localStorage.getItem('clipboard_data');
           
           var lengthBytes = lengthBytesUTF8(getClipboardData)+1;
-	      var stringOnWasmHeap = _malloc(lengthBytes);
-	      stringToUTF8(getClipboardData, stringOnWasmHeap, lengthBytes);
+	  var stringOnWasmHeap = _malloc(lengthBytes);
+	  stringToUTF8(getClipboardData, stringOnWasmHeap, lengthBytes);
 	      
           return stringOnWasmHeap;
-		});
+	});
 	    
-	    char *getClipText = clipStr;
+        char *getClipText = clipStr;
 	    
-	    return getClipText; 
-    
-        free(clipStr);
-        
+	free(clipStr);
+	
+	return getClipText;
 }
 
 void agk::SendToConsole(const char* consoleText)
