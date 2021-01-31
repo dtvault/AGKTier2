@@ -1646,9 +1646,9 @@ char* agk::GetLocalStorage( const char* keyItem )
 	    
 	    char *getItem = getStr;
 	    
-	    return getItem; 
-    
-        free(getStr);
+	free(getStr);
+       
+	return getItem;
 }
 
 void agk::RemoveLocalStorage(const char* keyItem)
