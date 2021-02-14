@@ -1838,7 +1838,7 @@ AGKShader* AGKShader::Make3DShader( cMesh *pMesh )
 	}
 	if ( pMesh->HasVertColors() ) 
 	{
-		strcat ( srcVertShader, "    colorVarying = color;\n" );
+		strcat ( srcVertShader, "    colorVarying = vec4(1.0, 1.0, 1.0, 1.0);\n" );
 	}
 
 	if ( pMesh->HasNormals() && pMesh->WantsLighting() && pMesh->HasNormalMap() )
