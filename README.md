@@ -12,6 +12,10 @@ Added (HTML5) - RemoveLocalStorage()\
 Added (HTML5) - ClearLocalStorage()
 
 Added PiPlayer for Raspberry Pi 4
+---------------------------------
+
+Tier 1 - Replace this player with your current PiPlayer (AGKPi/Tier1/Compiler/interpreters) to get the AGKPi edition working on RPI4.
+
 - You will need to make PiPlayer executable before trying to run it.
 - Use the following command in your terminal:
 
