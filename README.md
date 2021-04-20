@@ -11,6 +11,12 @@ Added (HTML5) - GetLocalStorage()\
 Added (HTML5) - RemoveLocalStorage()\
 Added (HTML5) - ClearLocalStorage()
 
+Added PiPlayer for Raspberry Pi 4
+- You will need to make PiPlayer executable before trying to run it.
+- Use the following command in your terminal:
+
+- chmod +x PiPlayer
+
 # AGK Tier2
 
 A community collaboration repository for AppGameKit Tier 2
